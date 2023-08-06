@@ -1,0 +1,191 @@
+homeassistant:
+  name: StPius
+  latitude: !secret latitude
+  longitude: !secret longitude
+  elevation: 20
+  unit_system: Imperial
+  time_zone: America/Los_Angeles
+
+lovelace:
+  resources:
+    - url: /local/multiple-entity-row.js?v=4.4.1
+      type: module
+    - url: /local/mini-media-player-bundle.js?ver=1.0.4
+      type: js
+
+notify:
+  - name: EMAIL_RYAN
+    platform: smtp
+    port: 25
+    encryption: none
+    sender: 'root@pius.org'
+    recipient: 'ryan@amaroq.com'
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+# Monitor system health
+system_health:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+http:
+
+api:
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+#updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+
+  # Enables support for tracking state changes over time
+history:
+
+recorder:
+  purge_keep_days: 30
+
+logger:
+  default: info
+
+# View all events in a logbook
+logbook:
+
+group:
+
+  on_air:
+    name: On Air
+    entities:
+       - switch.onair1_light
+       - switch.onair2_light
+
+  gym_lights_on:
+    name: Gym Lights On
+    entities:
+       - switch.gym_lights_0_on
+       - switch.gym_lights_1_on
+       - switch.gym_lights_2_on
+       - switch.gym_lights_3_on
+       - switch.gym_lights_4_on
+       - switch.gym_lights_5_on
+
+  gym_lights_off:
+    name: Gym Lights Off
+    entities:
+       - switch.gym_lights_0_off
+       - switch.gym_lights_1_off
+       - switch.gym_lights_2_off
+       - switch.gym_lights_3_off
+       - switch.gym_lights_4_off
+       - switch.gym_lights_5_off
+
+  projectors:
+    name: Projectors
+    entities:
+      - switch.center_projector_state
+      - switch.stage_right_projector_state
+      - switch.stage_left_projector_state
+
+mqtt:
+  binary_sensor:
+   - state_topic: "vmix/onair"
+     name: VMIX On Air
+     unique_id: vmix_on_air
+
+   - state_topic: "vmix/stream"
+     name: VMIX Streaming
+     unique_id: vmix_stream
+
+   - state_topic: "vmix/record"
+     name: VMIX Recording
+     unique_id: vmix_recording
+
+  sensor:
+
+   - state_topic: "StageRight/status"
+     name: Stage Right Projector Status
+     unique_id: proj_stage_right_status
+
+   - state_topic: "StageRight/last"
+     name: Stage Right Projector Last
+     unique_id: proj_stage_right_last
+
+   - state_topic: "StageLeft/status"
+     name: Stage Left Projector Status
+     unique_id: proj_stage_left_status
+
+   - state_topic: "StageLeft/last"
+     name: Stage Left Projector Last
+     unique_id: proj_stage_left_last
+
+   - state_topic: "Center/status"
+     name: Center Projector Status
+     unique_id: proj_center_status
+
+   - state_topic: "Center/last"
+     name: Center Projector Last
+     unique_id: proj_center_last
+
+   - state_topic: "readings/first"
+     name: First Reading
+     unique_id: readings_first
+
+   - state_topic: "readings/psalm"
+     name: Psalm
+     unique_id: readings_psalm
+
+   - state_topic: "readings/second"
+     name: Second Reading
+     unique_id: readings_second
+
+   - state_topic: "readings/gospel"
+     name: Gospel
+     unique_id: readings_gospel
+
+   - state_topic: "readings/last"
+     name: Readings Last
+     unique_id: readings_last
+
+   - state_topic: "readings/headline"
+     name: Mass Headline
+     unique_id: mass_headline
+
+   - state_topic: "vmix/last"
+     name: VMIX Last
+     unique_id: vmix_last
+
+  switch:
+
+   - name: Stage Right Projector State
+     unique_id: proj_stage_right_state
+     state_topic: "StageRight/state"
+     command_topic: "StageRight/request"
+     icon: 'mdi:switch'
+     payload_on: 1
+     payload_off: 0
+
+   - name: Stage Left Projector State
+     unique_id: proj_stage_left_state
+     state_topic: "StageLeft/state"
+     command_topic: "StageLeft/request"
+     payload_on: 1
+     payload_off: 0
+     icon: 'mdi:switch'
+
+   - name: Center Projector State
+     unique_id: proj_center_state
+     state_topic: "Center/state"
+     command_topic: "Center/request"
+     icon: 'mdi:switch'
+     payload_on: 1
+     payload_off: 0
+
+
